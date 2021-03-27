@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app 3</title>
+  <!-- <script src="https://unpkg.com/vue"></script> -->
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="app_div">
+      <p>{{ message }}</p>
+      <button v-on:click="reverseMessage">
+          Reverse
+      </button>
+      <!-- <p>{{ reverseMessage }}</p> -->
+      <p>Counter: {{ counter }}</p>
+
+      <ul>
+        <todo-item
+          v-for="item in groceryList"
+          v-bind:todo="item"
+          v-bind:key="item.id"
+        ></todo-item>
+      </ul>
+  </div>
+
+  <script>
+      const options = {
+          data() {
+            return {
+              message: "PhilBest",
+              blah: "nyaha",
+              counter: 0,
+              groceryList: [
+                { id: 1, text: 'Javascript'},
+                { id: 2, text: 'React'},
+                { id: 3, text: 'Vue'},
+                { id: 4, text: 'Blazor'},
+              ]
+            }
+          },
+          methods: {
+            reverseMessage() {
+              this.message = this.message
+                .split('')
+                .reverse()
+                .join('')
+            }
+          },
+          // computed: {
+          //   reverseMessage() {
+          //     return this.message.split('').reverse().join('')
+          //   }
+          // },
+          beforeCreate: function() {
+            // console.log(`Before, blah is: ${this.blah}`);
+            // this.blah = "nyaha 2x"
+          },
+          created: function() {
+            //   alert(`blah is: ${this.blah}`);
+              //console.log(`Now, blah is: ${this.blah}`);
+          },
+          mounted() {
+            setInterval(() => {
+              this.counter++
+            }, 1000)
+          }          
+      }
+
+      const app = Vue.createApp(options);
+      
+      app.component('todo-item', {
+        props: ['todo'],
+        template: `<li>{{ todo.text }}</li>`
+      })
+
+      app.mount("#app_div")
+  </script>
+</body>
+</html>
